@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ReactElement } from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
+import NavHeader from './pages/NavHeader';
+import NoMatch from './pages/NoMatch';
+import SignInPage from './pages/SignInPage';
 
-function App() {
+function App(): ReactElement {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  <BrowserRouter>
+  <AppRoutes />
+  </BrowserRouter>
+  );
+}
+function AppRoutes() {
+  const location = useLocation();
+  const showNavHeader = (location.pathname !== "/sign-in" && location.pathname!=="/sign-up");
+
+  return (
+    <div className='m-3'>
+      {showNavHeader && <NavHeader />}
+      <Routes>
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
     </div>
   );
 }
-
 export default App;
